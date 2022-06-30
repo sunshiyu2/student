@@ -1,22 +1,60 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-
+import Login from '../views/Login'
+import Register from '../views/Register'
+import Main from '../views/Main'
+import Upload from '../views/Upload.vue' 
+import AdminMain from '../views/AdminMain.vue'
+import TeacherManagement from '../views/TeacherManagement.vue'
+import CourseManagement from '../views/CourseManagement.vue'
+import ClassManagement from '../views/ClassManagement.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path:'/',
+    name: 'mainAdmin',
+    redirect: '/main/admin'
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path:'/login',
+    name:'login',
+    component:Login,
+  },
+  {
+    path:'/register',
+    name:'register',
+    component: Register,
+  },
+  {
+    path:'/main',
+    name:'main',
+    component: Main,
+  },
+  {
+    path:'/upload',
+    name:'upload',
+    component:Upload,
+  },
+  {
+    path:'/main/admin',
+    name:'adminMain',
+    component:AdminMain,
+  },
+  {
+    path:'/teacherManagement',
+    name:'teacherManagement',
+    component:TeacherManagement,
+  },
+  {
+    path:'/courseManagement',
+    name:'courseManagement',
+    component:CourseManagement,
+  },
+  {
+    path:'/classManagement',
+    name:'classManagement',
+    component:ClassManagement,
   }
 ]
 
