@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
   <el-container>
     <el-aside width="300px">
         <el-row class="tac">
@@ -34,10 +32,6 @@
             <caption class="text-center">
             <h1>学生管理系统</h1>
             <h4>用户：{{userName}}</h4>
-            
-    <el-button type="primary" @click="getStudents">获取学生信息</el-button>
-    <el-button v-show="showInsertButton" type="info" @click="showInsert">新增学生</el-button>
-    <el-button type="info" @click="logout">注销</el-button>
     
     </caption>
   <thead>
@@ -54,8 +48,8 @@
     <Teacher v-for="teacher in teachers" :key="teacher.userid" :teacher="teacher"></Teacher>
     <tr>
       <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_teacher.username"/> </td>
-      <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_teacher.userpwd"/> </td>
       <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_teacher.truename"/> </td>
+      <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_teacher.userpwd"/> </td>
       <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_teacher.classid"/></td>
       <td v-show="is_insert">
           <el-button type="primary" @click="submit" >提交</el-button>
@@ -85,16 +79,22 @@ export default {
           teachers:[],
           is_insert:false,
           temp_teacher:{
+            userid:null,
             roleid:1,
             username:null,
             userpwd:null,
             truename:null,
             classid:null,
           },
-
         }
     },
     methods: {
+      handleOpen(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        console.log(key, keyPath);
+      },
       goToTeacherManagement(){
         this.$router.push({path:"/teacherManagement"});
       },
@@ -108,22 +108,28 @@ export default {
         axios({
           url:"http://localhost:8000/admin/allTeachers",
         }).then(res=>{
-          console.log(res.data.steachers)
+          console.log(res.data.teachers)
           this.teachers = res.data.teachers;
         })
       },
       submit(){
         console.log(this.temp_teacher)
         axios({
-          url:"http://localhost:8000/admin/addTeacher",
-          data:this.temp_teacher,
-        }).then(res=>{
-          console.log(res.data)
-        })
+        url:"http://localhost:8000/admin/addTeacher",
+        method:"POST",
+        data:this.temp_teacher
+      });
+      this.is_insert=false;
+      this.temp_teacher.userid=null;
+      this.temp_teacher.username=null;
+      this.temp_teacher.userpwd=null;
+      this.temp_teacher.truename=null;
+      this.temp_teacher.classid=null;
+      this.getTeachers();
       },
       modify(){
         this.is_insert = true;
-      }
+      },
     }
 }
 </script>

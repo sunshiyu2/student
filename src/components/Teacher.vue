@@ -1,8 +1,8 @@
 <template>
   <tr>
       <td v-show="is_show">{{teacher.username}}</td>
-      <td v-show="is_show">{{teacher.userpwd}}</td>
       <td v-show="is_show">{{teacher.truename}}</td>
+      <td v-show="is_show">{{teacher.userpwd}}</td>
       <td v-show="is_show">{{teacher.classid}}</td>
       <td v-show="is_show">
           <el-button type="primary" @click="modify">修改</el-button>
