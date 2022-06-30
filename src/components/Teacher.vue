@@ -8,7 +8,7 @@
           <el-button type="primary" @click="modify">修改</el-button>
       </td>
       <td v-show="is_show">
-          <el-button type="danger" @click="deleteStudent">删除</el-button>
+          <el-button type="danger" @click="deleteTeacher">删除</el-button>
       </td>
 
       <td v-show="is_edit"><input class="w-50" type="text" v-model.number="teacher.username"/> </td>
@@ -19,7 +19,7 @@
           <el-button type="primary" @click="save">保存</el-button>
       </td>
       <td v-show="is_edit">
-          <el-button type="danger" @click="deleteStudent">删除</el-button>
+          <el-button type="danger" @click="deleteTeacher">删除</el-button>
       </td>
     </tr>
 </template>
@@ -41,21 +41,23 @@ export default {
         },
         save(){
             axios({
-                url: "http://localhost:8000/update",
+                url: "http://localhost:8000/admin/updateTeacher",
                 method: "POST",
                 data:this.teacher
             }).then(res=>{
                 this.modify();
             }).catch(err=>{console.log(err)});
         },
-        deleteStudent(){
+        deleteTeacher(){
             axios({
-                url: "http://localhost:8000/delete",
+                url: "http://localhost:8000/admin/deleteTeacher",
                 method: "POST",
                 data:this.teacher
-            });
-            this.is_edit=false;
-            this.is_show=false;
+            }).then(res=>{
+                this.is_show = false;
+                this.is_edit = false;
+            }).catch(err=>{console.log(err)
+            })
         } 
     }
 }

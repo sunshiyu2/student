@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
   <el-container>
     <el-aside width="300px">
         <el-row class="tac">
@@ -26,24 +24,39 @@
 </el-row>
         </el-aside>
     <el-main>
-        <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="日期"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="姓名"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="address"
-        label="地址">
-      </el-table-column>
-    </el-table>
+      <el-button @click="getClasses">获取班级</el-button>
+      <el-button @click="modify">添加班级</el-button>
+
+          <div class="col-8 offset-2">
+        <table class="table caption-top">
+            <caption class="text-center">
+            <h1>学生管理系统</h1>
+            <h4>用户：{{userName}}</h4>
+    
+    </caption>
+  <thead>
+    <tr>
+      <th scope="col">编号</th>
+      <th scope="col">班级名称</th>
+      <th scope="col">操作1</th>
+      <th scope="col">操作2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <Class v-for="pjclass in classes" :key="pjclass.userid" :pjclass="pjclass"></Class>
+    <tr>
+      <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_class.classid"/> </td>
+      <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_class.classname"/> </td>
+      <td v-show="is_insert">
+          <el-button type="primary" @click="submit" >提交</el-button>
+      </td>
+      <td v-show="is_insert">
+          <el-button type="danger">取消</el-button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
     </el-main>
   </el-container>
 
@@ -51,26 +64,20 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Class from "../components/Class.vue"
 export default {
+    components:{
+      Class,
+    },
     data(){
         return{
-            tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }]
+          classes:[],
+          is_insert:false,
+          temp_class:{
+            classid:null,
+            classname:null,
+          },
         }
     },
     methods: {
@@ -88,6 +95,27 @@ export default {
       },
       goToClassManagement(){
         this.$router.push({path:"/classManagement"});
+      },
+      getClasses(){
+        axios({
+          url:"http://localhost:8000/admin/allClasses",
+        }).then(res=>{
+          console.log(res.data.classes)
+          this.classes = res.data.classes;
+        })
+      },
+      submit(){
+        console.log(this.temp_class)
+        axios({
+        url:"http://localhost:8000/admin/addClass",
+        method:"POST",
+        data:this.temp_class
+      });
+      this.is_insert=false;
+      this.getClasss();
+      },
+      modify(){
+        this.is_insert = true;
       },
     }
 }
