@@ -43,7 +43,7 @@
     </tr>
   </thead>
   <tbody>
-    <Class v-for="pjclass in classes" :key="pjclass.userid" :pjclass="pjclass"></Class>
+    <Class v-for="pjclass in classes" :key="pjclass.classid" :pjclass="pjclass"></Class>
     <tr>
       <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_class.classid"/> </td>
       <td v-show="is_insert"><input class="w-50" type="text" v-model.number="temp_class.classname"/> </td>
@@ -112,7 +112,7 @@ export default {
         data:this.temp_class
       });
       this.is_insert=false;
-      this.getClasss();
+      this.getClasses();
       },
       modify(){
         this.is_insert = true;
